@@ -1,0 +1,1314 @@
+document.getElementById('file1').addEventListener('change', function(e) {
+            handleFileSelect(e, 1);
+        });
+
+        document.getElementById('file2').addEventListener('change', function(e) {
+            handleFileSelect(e, 2);
+        });
+
+        async function handleFileSelect(event, fileNum) {
+            const file = event.target.files[0];
+            if (!file) return;            // Test ma'lumotlari - 2-jadval (Xo'jalik egalari va oila a'zolari) - 35 ta yozuv
+            const testData2 = [
+                ['№', 'Хўжалик эгаси / Head of Household / Глава хозяйства', 'Ушбу хонадонда яшовчилар ФИШ (тўлиқ)', 'Family Members', 'Члены семьи', 'Туғилган йили', 'Паспорт рақами', 'Қариндошлиги', 'Relationship', 'Родство', 'Яшаш манзили', 'Миллати', 'Маьлумоти', 'Иш жойи', 'Телефон', 'Оилавий ахволи'],
+                [1, 'Джумаев Саидқул Хамроқулович', 'Джумаев Саидқул Хамроқулович', 'Jumaev Saidqul Hamroqulovich', 'Джумаев Саидкул Хамрокулович', '05.11.1964', 'AB2714620', 'Хўжалик бошлиғи', 'Head', 'Глава', 'Бўзчилар 2 уй', 'Ўзбек', 'Ўрта', 'Сам пиво завод', '905308600', 'Кам таьминланган'],
+                [2, 'Джумаев Саидқул Хамроқулович', 'Исломова Матлуба Асламовна', 'Islomova Matluba Aslamovna', 'Исломова Матлуба Асламовна', '11.12.1963', 'АВ9383032', 'турмуш ўртоғи', 'Wife', 'Жена', 'Бўзчилар 2 уй', 'Ўзбек', 'Ўрта', 'уй бекаси', '915309086', 'пенсионер'],
+                [3, 'Джумаев Саидқул Хамроқулович', 'Джумаев Собитжон Саидкулович', 'Jumaev Sobitjon Saidqulovich', 'Джумаев Собитжон Саидкулович', '16.03.1994', 'FА7395468', 'ўғли', 'Son', <!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MatchForge - Professional Data Comparison Tool</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.4.2/mammoth.browser.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/papaparse/5.3.2/papaparse.min.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+        }
+        
+        .logo-icon {
+            font-size: 3em;
+            margin-right: 15px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #666;
+            font-size: 1.2em;
+            margin-bottom: 30px;
+            font-style: italic;
+        }
+        
+        .upload-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .file-upload {
+            border: 3px dashed #667eea;
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+            background: linear-gradient(45deg, #f8f9ff, #e8ecff);
+        }
+        
+        .file-upload:hover {
+            border-color: #764ba2;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .file-upload h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+        
+        input[type="file"] {
+            margin: 10px 0;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            width: 100%;
+            font-size: 14px;
+        }
+        
+        .file-support {
+            margin-top: 10px;
+            padding: 10px;
+            background: #e8f5e8;
+            border-radius: 5px;
+            font-size: 12px;
+            color: #155724;
+            text-align: center;
+        }
+        
+        .format-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            justify-content: center;
+            margin-top: 5px;
+        }
+        
+        .format-badge {
+            background: linear-gradient(45deg, #28a745, #20c997);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 10px;
+            font-weight: bold;
+        }
+        
+        button {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .result-section {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f8f9ff;
+            border-radius: 10px;
+            border-left: 5px solid #667eea;
+        }
+        
+        .status {
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        
+        .status.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .status.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .status.info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        th {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            font-weight: bold;
+        }
+        
+        tr:hover {
+            background: #f8f9ff;
+        }
+        
+        .download-btn {
+            margin: 10px 5px;
+            background: linear-gradient(45deg, #28a745, #20c997);
+        }
+        
+        .download-btn:hover {
+            background: linear-gradient(45deg, #20c997, #28a745);
+        }
+        
+        .file-info {
+            margin-top: 10px;
+            padding: 10px;
+            background: #e8f5e8;
+            border-radius: 5px;
+            font-size: 12px;
+            color: #155724;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            <div class="logo-icon">⚡</div>
+            <h1 id="mainTitle">MatchForge</h1>
+        </div>
+        <p class="subtitle" id="subtitle">Professional Data Comparison & Analysis Tool</p>
+        
+        <!-- Til tanlash -->
+        <div style="text-align: center; margin-bottom: 20px;">
+            <div style="background: linear-gradient(45deg, #f8f9ff, #e8ecff); padding: 15px; border-radius: 10px; display: inline-block;">
+                <label style="font-weight: bold; margin-right: 10px;" id="langLabel">🌐 Til tanlang:</label>
+                <select id="languageSelect" onchange="changeLanguage()" style="padding: 8px; border-radius: 5px; border: 2px solid #667eea; font-size: 14px;">
+                    <option value="uz">🇺🇿 O'zbekcha</option>
+                    <option value="ru">🇷🇺 Русский</option>
+                    <option value="en">🇺🇸 English</option>
+                </select>
+            </div>
+        </div>
+        
+        <div class="upload-section">
+            <div class="file-upload">
+                <h3 id="table1Title">📋 1-jadval (Jismoniy abonentlar)</h3>
+                <input type="file" id="file1" accept=".xlsx,.xls,.csv,.docx,.doc,.txt" />
+                <div class="file-support">
+                    <div id="supportedFormats1">✅ Qo'llab-quvvatlanadigan formatlar:</div>
+                    <div class="format-badges">
+                        <span class="format-badge">📊 XLSX</span>
+                        <span class="format-badge">📊 XLS</span>
+                        <span class="format-badge">📄 CSV</span>
+                        <span class="format-badge">📝 DOCX</span>
+                        <span class="format-badge">📝 DOC</span>
+                        <span class="format-badge">📄 TXT</span>
+                    </div>
+                </div>
+                <div class="file-info" id="info1" style="display: none;"></div>
+            </div>
+            
+            <div class="file-upload">
+                <h3 id="table2Title">🏠 2-jadval (Xo'jalik egalari)</h3>
+                <input type="file" id="file2" accept=".xlsx,.xls,.csv,.docx,.doc,.txt" />
+                <div class="file-support">
+                    <div id="supportedFormats2">✅ Qo'llab-quvvatlanadigan formatlar:</div>
+                    <div class="format-badges">
+                        <span class="format-badge">📊 XLSX</span>
+                        <span class="format-badge">📊 XLS</span>
+                        <span class="format-badge">📄 CSV</span>
+                        <span class="format-badge">📝 DOCX</span>
+                        <span class="format-badge">📝 DOC</span>
+                        <span class="format-badge">📄 TXT</span>
+                    </div>
+                </div>
+                <div class="file-info" id="info2" style="display: none;"></div>
+            </div>
+        </div>
+        
+        <div style="text-align: center;">
+            <button id="compareBtn" onclick="compareFiles()" disabled>
+                <span id="compareBtnText">🔍 FAYLLARNI SOLISHTIRISH</span>
+            </button>
+            <br><br>
+            <button id="testBtn" onclick="runTest()" style="background: linear-gradient(45deg, #ff6b6b, #ee5a24);">
+                <span id="testBtnText">🎯 TEST REJIMIDA ISHGA TUSHIRISH</span>
+            </button>
+        </div>
+        
+        <div id="result" class="result-section" style="display: none;">
+            <h3 id="resultTitle">📊 Natijalar</h3>
+            <div id="status"></div>
+            <div id="downloadSection" style="display: none;">
+                <button class="download-btn" onclick="downloadResult()">
+                    <span id="downloadBtnText">📥 NATIJANI YUKLASH (Excel)</span>
+                </button>
+            </div>
+            <div id="tableContainer"></div>
+        </div>
+    </div>
+
+    <script>
+        let file1Data = null;
+        let file2Data = null;
+        let resultData = [];
+        let currentLanguage = 'uz';
+
+        // Til ma'lumotlari
+        const translations = {
+            uz: {
+                mainTitle: 'MatchForge',
+                subtitle: 'Professional Ma\'lumot Solishtirish va Tahlil Vositasi',
+                langLabel: '🌐 Til tanlang:',
+                table1Title: '📋 1-jadval (Jismoniy abonentlar)',
+                table2Title: '🏠 2-jadval (Xo\'jalik egalari va oila a\'zolari)',
+                compareBtnText: '🔍 FAYLLARNI SOLISHTIRISH',
+                testBtnText: '🎯 TEST REJIMIDA ISHGA TUSHIRISH',
+                resultTitle: '📊 Natijalar',
+                downloadBtnText: '📥 NATIJANI YUKLASH (Excel)',
+                supportedFormats: '✅ Qo\'llab-quvvatlanadigan formatlar:',
+                loadingTest: 'Ko\'proq test ma\'lumotlari yuklanyapti...',
+                testLoaded: 'Katta test ma\'lumoti yuklandi! Endi solishtirish boshlanyapti...',
+                analysisStarted: 'Tahlil boshlandi',
+                successResult: 'MUVAFFAQIYAT: {0} ta umumiy shaxs va oila a\'zosi topildi',
+                greatResult: '(Bu juda yaxshi natija! 🎉)',
+                noResults: '❌ Afsuski, umumiy shaxslar topilmadi. F.I.Sh yozilishi bir xil emasligini tekshiring.',
+                analysisResults: 'TAHLIL NATIJALARI:',
+                fileLoaded: '✅ Yuklandi: {0} ({1} qator)',
+                unsupportedFormat: '❌ Qo\'llab-quvvatlanmagan format: {0}',
+                fileError: '❌ Faylni o\'qishda xatolik: {0}',
+                processingFile: '⏳ Fayl ishlov berilmoqda...'
+            },
+            ru: {
+                mainTitle: 'MatchForge',
+                subtitle: 'Профессиональный инструмент сравнения и анализа данных',
+                langLabel: '🌐 Выберите язык:',
+                table1Title: '📋 1-таблица (Физические абоненты)',
+                table2Title: '🏠 2-таблица (Главы хозяйств и члены семьи)',
+                compareBtnText: '🔍 СРАВНИТЬ ФАЙЛЫ',
+                testBtnText: '🎯 ЗАПУСТИТЬ В ТЕСТОВОМ РЕЖИМЕ',
+                resultTitle: '📊 Результаты',
+                downloadBtnText: '📥 СКАЧАТЬ РЕЗУЛЬТАТ (Excel)',
+                supportedFormats: '✅ Поддерживаемые форматы:',
+                loadingTest: 'Загружается больше тестовых данных...',
+                testLoaded: 'Большие тестовые данные загружены! Начинается сравнение...',
+                analysisStarted: 'Анализ начат',
+                successResult: 'УСПЕХ: Найдено {0} общих лиц и членов семьи',
+                greatResult: '(Это отличный результат! 🎉)',
+                noResults: '❌ К сожалению, общие лица не найдены. Проверьте правильность написания Ф.И.О.',
+                analysisResults: 'РЕЗУЛЬТАТЫ АНАЛИЗА:',
+                fileLoaded: '✅ Загружено: {0} ({1} строк)',
+                unsupportedFormat: '❌ Неподдерживаемый формат: {0}',
+                fileError: '❌ Ошибка чтения файла: {0}',
+                processingFile: '⏳ Обработка файла...'
+            },
+            en: {
+                mainTitle: 'MatchForge',
+                subtitle: 'Professional Data Comparison & Analysis Tool',
+                langLabel: '🌐 Select Language:',
+                table1Title: '📋 Table 1 (Individual Subscribers)',
+                table2Title: '🏠 Table 2 (Household Heads and Family Members)',
+                compareBtnText: '🔍 COMPARE FILES',
+                testBtnText: '🎯 RUN IN TEST MODE',
+                resultTitle: '📊 Results',
+                downloadBtnText: '📥 DOWNLOAD RESULT (Excel)',
+                supportedFormats: '✅ Supported formats:',
+                loadingTest: 'Loading more test data...',
+                testLoaded: 'Large test data loaded! Starting comparison...',
+                analysisStarted: 'Analysis started',
+                successResult: 'SUCCESS: Found {0} common persons and family members',
+                greatResult: '(This is a great result! 🎉)',
+                noResults: '❌ Unfortunately, no common persons found. Check if names are written consistently.',
+                analysisResults: 'ANALYSIS RESULTS:',
+                fileLoaded: '✅ Loaded: {0} ({1} rows)',
+                unsupportedFormat: '❌ Unsupported format: {0}',
+                fileError: '❌ File reading error: {0}',
+                processingFile: '⏳ Processing file...'
+            }
+        };
+
+        function changeLanguage() {
+            currentLanguage = document.getElementById('languageSelect').value;
+            updateUI();
+        }
+
+        function updateUI() {
+            const t = translations[currentLanguage];
+            document.getElementById('mainTitle').textContent = t.mainTitle;
+            document.getElementById('subtitle').textContent = t.subtitle;
+            document.getElementById('langLabel').textContent = t.langLabel;
+            document.getElementById('table1Title').textContent = t.table1Title;
+            document.getElementById('table2Title').textContent = t.table2Title;
+            document.getElementById('compareBtnText').textContent = t.compareBtnText;
+            document.getElementById('testBtnText').textContent = t.testBtnText;
+            document.getElementById('resultTitle').textContent = t.resultTitle;
+            document.getElementById('downloadBtnText').textContent = t.downloadBtnText;
+            document.getElementById('supportedFormats1').textContent = t.supportedFormats;
+            document.getElementById('supportedFormats2').textContent = t.supportedFormats;
+        }
+
+        // Fayl o'qish funksiyasi - ko'p formatlarni qo'llab-quvvatlaydi
+        async function readFile(file, fileNum) {
+            const fileName = file.name.toLowerCase();
+            const fileExtension = fileName.split('.').pop();
+            
+            showStatus('processingFile', 'info');
+            
+            try {
+                if (fileExtension === 'xlsx' || fileExtension === 'xls') {
+                    return await readExcelFile(file);
+                } else if (fileExtension === 'csv') {
+                    return await readCSVFile(file);
+                } else if (fileExtension === 'docx') {
+                    return await readWordFile(file);
+                } else if (fileExtension === 'txt') {
+                    return await readTextFile(file);
+                } else {
+                    throw new Error(`${fileExtension.toUpperCase()}`);
+                }
+            } catch (error) {
+                if (error.message.includes('xlsx') || error.message.includes('xls') || 
+                    error.message.includes('csv') || error.message.includes('docx') || 
+                    error.message.includes('txt')) {
+                    showStatus('unsupportedFormat', 'error', error.message);
+                } else {
+                    showStatus('fileError', 'error', error.message);
+                }
+                return null;
+            }
+        }
+
+        async function readExcelFile(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    try {
+                        const data = new Uint8Array(e.target.result);
+                        const workbook = XLSX.read(data, {type: 'array'});
+                        const firstSheetName = workbook.SheetNames[0];
+                        const worksheet = workbook.Sheets[firstSheetName];
+                        const jsonData = XLSX.utils.sheet_to_json(worksheet, {header: 1});
+                        resolve(jsonData);
+                    } catch (error) {
+                        reject(error);
+                    }
+                };
+                reader.onerror = () => reject(new Error('Excel faylni o\'qib bo\'lmadi'));
+                reader.readAsArrayBuffer(file);
+            });
+        }
+
+        async function readCSVFile(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    try {
+                        const csvText = e.target.result;
+                        const parsed = Papa.parse(csvText, {
+                            header: false,
+                            dynamicTyping: true,
+                            skipEmptyLines: true
+                        });
+                        resolve(parsed.data);
+                    } catch (error) {
+                        reject(error);
+                    }
+                };
+                reader.onerror = () => reject(new Error('CSV faylni o\'qib bo\'lmadi'));
+                reader.readAsText(file, 'UTF-8');
+            });
+        }
+
+        async function readWordFile(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = async function(e) {
+                    try {
+                        const arrayBuffer = e.target.result;
+                        const result = await mammoth.extractRawText({arrayBuffer: arrayBuffer});
+                        const text = result.value;
+                        
+                        // Word matnini jadval formatiga aylantirish
+                        const lines = text.split('\n').filter(line => line.trim() !== '');
+                        const tableData = [];
+                        
+                        lines.forEach(line => {
+                            // Tab yoki bir nechta bo'sh joylar bilan ajratilgan ma'lumotlarni ajratish
+                            const cells = line.split(/\t|\s{2,}/).filter(cell => cell.trim() !== '');
+                            if (cells.length > 1) {
+                                tableData.push(cells);
+                            }
+                        });
+                        
+                        if (tableData.length === 0) {
+                            // Agar jadval topilmasa, har bir qatorni bitta ustun sifatida qabul qilish
+                            lines.forEach(line => {
+                                if (line.trim()) {
+                                    tableData.push([line.trim()]);
+                                }
+                            });
+                        }
+                        
+                        resolve(tableData);
+                    } catch (error) {
+                        reject(error);
+                    }
+                };
+                reader.onerror = () => reject(new Error('Word faylni o\'qib bo\'lmadi'));
+                reader.readAsArrayBuffer(file);
+            });
+        }
+
+        async function readTextFile(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    try {
+                        const text = e.target.result;
+                        const lines = text.split('\n').filter(line => line.trim() !== '');
+                        const tableData = [];
+                        
+                        lines.forEach(line => {
+                            // Tab, vergul yoki bir nechta bo'sh joylar bilan ajratilgan
+                            const cells = line.split(/\t|,|\s{2,}/).filter(cell => cell.trim() !== '');
+                            if (cells.length > 0) {
+                                tableData.push(cells);
+                            }
+                        });
+                        
+                        resolve(tableData);
+                    } catch (error) {
+                        reject(error);
+                    }
+                };
+                reader.onerror = () => reject(new Error('Matn faylni o\'qib bo\'lmadi'));
+                reader.readAsText(file, 'UTF-8');
+            });
+        }
+
+        function showStatus(messageKey, type, ...args) {
+            const t = translations[currentLanguage];
+            let message = t[messageKey] || messageKey;
+            
+            // Replace placeholders {0}, {1}, etc.
+            args.forEach((arg, index) => {
+                message = message.replace(`{${index}}`, arg);
+            });
+            
+            const statusDiv = document.getElementById('status');
+            statusDiv.innerHTML = `<div class="status ${type}">${message}</div>`;
+        }
+
+        document.getElementById('file1').addEventListener('change', function(e) {
+            handleFileSelect(e, 1);
+        });
+
+        document.getElementById('file2').addEventListener('change', function(e) {
+            handleFileSelect(e, 2);
+        });
+
+        function handleFileSelect(event, fileNum) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const data = new Uint8Array(e.target.result);
+                    const workbook = XLSX.read(data, {type: 'array'});
+                    const firstSheetName = workbook.SheetNames[0];
+                    const worksheet = workbook.Sheets[firstSheetName];
+                    const jsonData = XLSX.utils.sheet_to_json(worksheet, {header: 1});
+
+                    if (fileNum === 1) {
+                        file1Data = jsonData;
+                        document.getElementById('info1').style.display = 'block';
+                        document.getElementById('info1').innerHTML = `✅ Yuklandi: ${jsonData.length} qator`;
+                    } else {
+                        file2Data = jsonData;
+                        document.getElementById('info2').style.display = 'block';
+                        document.getElementById('info2').innerHTML = `✅ Yuklandi: ${jsonData.length} qator`;
+                    }
+
+                    checkFilesReady();
+                } catch (error) {
+                    showStatus('Excel faylni o\'qishda xatolik yuz berdi: ' + error.message, 'error');
+                }
+            };
+            reader.readAsArrayBuffer(file);
+        }
+
+        function checkFilesReady() {
+            const compareBtn = document.getElementById('compareBtn');
+            if (file1Data && file2Data) {
+                compareBtn.disabled = false;
+                compareBtn.style.opacity = '1';
+            }
+        }
+
+        function compareFiles() {
+            if (!file1Data || !file2Data) {
+                showStatus('Iltimos, ikkala faylni ham yuklang!', 'error');
+                return;
+            }
+
+            try {
+                const totalRows = (file1Data.length - 1) * (file2Data.length - 1);
+                if (totalRows > 10000) {
+                    showStatus(`⏳ Katta ma'lumot tahlil qilinyapti... Bu biroz vaqt olishi mumkin (${file1Data.length - 1} × ${file2Data.length - 1} = ${totalRows.toLocaleString()} ta solishtirish)`, 'info');
+                } else {
+                    showStatus('Fayllar solishtirilmoqda...', 'info');
+                }
+                
+                // Katta ma'lumotlar uchun timeout berish
+                setTimeout(() => {
+                    // Ma'lumotlarni tayyorlash
+                    const table1 = parseTableData(file1Data, 'table1');
+                    const table2 = parseTableData(file2Data, 'table2');
+                    
+                    showStatus(`📊 Tahlil boshlandi: ${table1.length} abonent vs ${table2.length} xo'jalik egasi`, 'info');
+                    
+                    // Umumiy shaxslarni topish
+                    const commonPeople = findCommonPeople(table1, table2);
+                    
+                    if (commonPeople.length > 0) {
+                        let statusMsg = `✅ MUVAFFAQIYAT: ${commonPeople.length} ta umumiy shaxs topildi`;
+                        if (commonPeople.length >= 100) {
+                            statusMsg += ` (Bu juda yaxshi natija! 🎉)`;
+                        }
+                        showStatus(statusMsg, 'success');
+                        displayResults(commonPeople);
+                        document.getElementById('downloadSection').style.display = 'block';
+                    } else {
+                        showStatus('❌ Afsuski, umumiy shaxslar topilmadi. F.I.Sh yozilishi bir xil emasligini tekshiring.', 'info');
+                        document.getElementById('downloadSection').style.display = 'none';
+                    }
+                    
+                    resultData = commonPeople;
+                }, 100); // Kichik timeout UI ni yangilash uchun
+                
+            } catch (error) {
+                showStatus('❌ Solishtirish jarayonida xatolik: ' + error.message, 'error');
+            }
+        }
+
+        function parseTableData(data, tableType) {
+            if (!data || data.length < 2) return [];
+            
+            const result = [];
+            const headers = data[0];
+            
+            for (let i = 1; i < data.length; i++) {
+                const row = data[i];
+                const person = {
+                    source: tableType,
+                    rowData: {}
+                };
+                
+                // Har bir ustunni nomini bilan saqlash
+                headers.forEach((header, index) => {
+                    person.rowData[header || `Ustun_${index}`] = row[index] || '';
+                });
+                
+                // F.I.Sh ni aniqlash - keng qidiruv
+                let fullName = findFullName(person.rowData);
+                
+                if (fullName && fullName.length > 5) { // Kamida 5 ta belgi
+                    person.fullName = fullName;
+                    person.searchVariants = generateSearchVariants(fullName);
+                    result.push(person);
+                }
+            }
+            
+            return result;
+        }
+
+        function findFullName(rowData) {
+            const namePatterns = [
+                // O'zbek tilida
+                /фиш|ф\.и\.ш|фамилия|исм|nom|name/i,
+                // Rus tilida  
+                /фио|ф\.и\.о|фамилия|имя|отчество/i,
+                // Ingliz tilida
+                /full.?name|first.?name|last.?name|surname/i,
+                // Umumiy
+                /хўжалик|эгаси|абонент|person|client/i
+            ];
+            
+            // Avval kalit so'zlar bo'yicha qidirish
+            for (let key of Object.keys(rowData)) {
+                const value = String(rowData[key]).trim();
+                
+                for (let pattern of namePatterns) {
+                    if (pattern.test(key.toLowerCase()) && value.length > 5) {
+                        // Ism-familya ekanligini tekshirish
+                        if (isValidName(value)) {
+                            return value.toUpperCase();
+                        }
+                    }
+                }
+            }
+            
+            // Agar topilmasa, eng uzun va ism-familyaga o'xshash matnni izlash
+            let bestMatch = '';
+            for (let key of Object.keys(rowData)) {
+                const value = String(rowData[key]).trim();
+                if (isValidName(value) && value.length > bestMatch.length) {
+                    bestMatch = value;
+                }
+            }
+            
+            return bestMatch ? bestMatch.toUpperCase() : '';
+        }
+
+        function isValidName(text) {
+            if (!text || text.length < 5) return false;
+            
+            // Ism-familya bo'lishi uchun shartlar
+            const hasSpaces = text.includes(' ');
+            const hasLetters = /[A-Za-zА-Яа-яЁёўғҳқўцчшƒΩ]/g.test(text);
+            const wordsCount = text.split(/\s+/).filter(w => w.length > 1).length;
+            const hasNumbers = /\d/.test(text);
+            
+            // Kamida 2 ta so'z, harflar bor, raqamlar kam
+            return hasSpaces && hasLetters && wordsCount >= 2 && !hasNumbers;
+        }
+
+        function generateSearchVariants(fullName) {
+            const variants = new Set();
+            const cleanName = fullName.replace(/[^\w\s\u0400-\u04FF]/g, '').trim();
+            
+            variants.add(cleanName);
+            
+            // So'zlar tartibini o'zgartirish
+            const words = cleanName.split(/\s+/).filter(w => w.length > 0);
+            
+            if (words.length >= 1) {
+                // Har bir so'zni alohida
+                words.forEach(word => {
+                    if (word.length > 2) variants.add(word);
+                });
+                
+                // 2 ta so'z kombinatsiyalari
+                for (let i = 0; i < words.length; i++) {
+                    for (let j = i + 1; j < words.length; j++) {
+                        variants.add(`${words[i]} ${words[j]}`);
+                        variants.add(`${words[j]} ${words[i]}`);
+                    }
+                }
+                
+                // Qisqartmalar va initiallar
+                if (words.length >= 2) {
+                    const initials = words.map(w => w.charAt(0)).join('');
+                    variants.add(initials);
+                    
+                    // Birinchi so'z + boshqa so'zlarning birinchi harfi
+                    for (let i = 0; i < words.length; i++) {
+                        const shortened = words[i] + ' ' + 
+                            words.slice(i + 1).map(w => w.charAt(0)).join('');
+                        if (shortened.trim().length > 2) variants.add(shortened.trim());
+                    }
+                }
+                
+                // 3 ta so'z kombinatsiyalari
+                if (words.length >= 3) {
+                    // Barcha permutatsiyalar
+                    const permutations = [
+                        [0, 1, 2], [0, 2, 1], [1, 0, 2], 
+                        [1, 2, 0], [2, 0, 1], [2, 1, 0]
+                    ];
+                    
+                    permutations.forEach(perm => {
+                        if (perm.every(i => i < words.length)) {
+                            const combo = perm.map(i => words[i]).join(' ');
+                            variants.add(combo);
+                        }
+                    });
+                }
+                
+                // Latincha va kirillcha variantlar
+                variants.add(toLatin(cleanName));
+                
+                // Fonetik variantlar
+                variants.add(toPhonetic(cleanName));
+                
+                // Qisman variantlar (birinchi 2 ta so'z)
+                if (words.length > 2) {
+                    variants.add(words.slice(0, 2).join(' '));
+                    variants.add(words.slice(-2).join(' '));
+                }
+            }
+            
+            // Bo'sh yoki juda qisqa variantlarni olib tashlash
+            return Array.from(variants).filter(v => v.length > 1);
+        }
+
+        function findCommonPeople(table1, table2) {
+            const common = [];
+            const processed = new Set(); // Takrorlanishni oldini olish
+            
+            showStatus('analysisStarted', 'info', table1.length, table2.length);
+            
+            let totalComparisons = 0;
+            let matchesFound = 0;
+            
+            table1.forEach((person1, index1) => {
+                // Progress ko'rsatish
+                if (index1 % 100 === 0 && table1.length > 500) {
+                    const progress = ((index1 / table1.length) * 100).toFixed(1);
+                    showStatus('analysisStarted', 'info', `${progress}% (${matchesFound} ta topildi)`);
+                }
+                
+                table2.forEach((person2, index2) => {
+                    totalComparisons++;
+                    
+                    // Har bir variant bilan solishtirish
+                    let isMatch = false;
+                    for (let variant1 of person1.searchVariants) {
+                        if (isMatch) break;
+                        for (let variant2 of person2.searchVariants) {
+                            if (compareNames(variant1, variant2)) {
+                                isMatch = true;
+                                break;
+                            }
+                        }
+                    }
+                    
+                    if (isMatch) {
+                        const matchKey = `${person1.fullName}-${person2.fullName}`;
+                        if (!processed.has(matchKey)) {
+                            const combinedPerson = {
+                                fullName: person1.fullName,
+                                table1Data: person1.rowData,
+                                table2Data: person2.rowData,
+                                matchScore: calculateMatchScore(person1.fullName, person2.fullName)
+                            };
+                            common.push(combinedPerson);
+                            processed.add(matchKey);
+                            matchesFound++;
+                        }
+                    }
+                });
+            });
+            
+            // Natijalarni match score bo'yicha tartiblash
+            return common.sort((a, b) => b.matchScore - a.matchScore);
+        }
+
+        function calculateMatchScore(name1, name2) {
+            // Match qanchalik aniq ekanligini baholash (0-100)
+            const similarity = calculateSimilarity(name1, name2);
+            const wordMatch = wordsMatch(name1, name2) ? 20 : 0;
+            const fullMatch = (name1 === name2) ? 30 : 0;
+            
+            return Math.round(similarity * 50 + wordMatch + fullMatch);
+        }
+
+        function compareNames(name1, name2) {
+            if (!name1 || !name2) return false;
+            
+            // Nomlarni tozalash va normallash
+            const clean1 = cleanName(name1);
+            const clean2 = cleanName(name2);
+            
+            if (clean1 === clean2) return true;
+            
+            // 1. To'liq nom solishtirish (99% o'xshashlik ham yetarli)
+            if (fullNameMatch(clean1, clean2)) return true;
+            
+            // 2. So'zlar bo'yicha solishtirish (yumshoqroq shartlar)
+            if (wordsMatch(clean1, clean2)) return true;
+            
+            // 3. Fuzzy matching (pastroq chegara)
+            if (fuzzyMatch(clean1, clean2)) return true;
+            
+            // 4. Initials matching (bosh harflar)
+            if (initialsMatch(clean1, clean2)) return true;
+            
+            // 5. Partial matching (qisman mos kelish)
+            if (partialMatch(clean1, clean2)) return true;
+            
+            // 6. Phonetic matching (tovush o'xshashligi)
+            if (phoneticMatch(clean1, clean2)) return true;
+            
+            // 7. Transliteration matching (lotin-kirill)
+            if (transliterationMatch(clean1, clean2)) return true;
+            
+            return false;
+        }
+
+        function cleanName(name) {
+            return name
+                .replace(/[^\w\s\u0400-\u04FF\u0410-\u044F]/g, '') // faqat harflar va bo'sh joy
+                .replace(/\s+/g, ' ') // bir nechta bo'sh joyni bitta qilish
+                .trim()
+                .toUpperCase();
+        }
+
+        function fullNameMatch(name1, name2) {
+            // To'liq mos kelish yoki deyarli mos kelish
+            if (name1 === name2) return true;
+            
+            // 95% o'xshashlik ham yetarli
+            const similarity = calculateSimilarity(name1, name2);
+            return similarity > 0.95;
+        }
+
+        function wordsMatch(name1, name2) {
+            const words1 = name1.split(/\s+/).filter(w => w.length > 1);
+            const words2 = name2.split(/\s+/).filter(w => w.length > 1);
+            
+            if (words1.length < 1 || words2.length < 1) return false;
+            
+            let matchCount = 0;
+            let totalPossible = Math.max(words1.length, words2.length);
+            
+            for (let word1 of words1) {
+                for (let word2 of words2) {
+                    if (wordSimilar(word1, word2)) {
+                        matchCount++;
+                        break;
+                    }
+                }
+            }
+            
+            // Kamida 1 ta so'z mos kelishi yetarli (50%+ mos kelish)
+            return matchCount >= 1 && (matchCount / totalPossible) >= 0.4;
+        }
+
+        function wordSimilar(word1, word2) {
+            if (word1 === word2) return true;
+            
+            // Uzunlik farqini kengaytirish
+            if (Math.abs(word1.length - word2.length) > 4) return false;
+            
+            // O'xshashlik darajasini pasaytirish
+            const similarity = calculateSimilarity(word1, word2);
+            return similarity > 0.65; // 65% o'xshashlik
+        }
+
+        function fuzzyMatch(name1, name2) {
+            // Umumiy o'xshashlik darajasini pasaytirish
+            const similarity = calculateSimilarity(name1, name2);
+            return similarity > 0.7; // 70% o'xshashlik
+        }
+
+        function initialsMatch(name1, name2) {
+            const words1 = name1.split(/\s+/).filter(w => w.length > 0);
+            const words2 = name2.split(/\s+/).filter(w => w.length > 0);
+            
+            if (words1.length < 1 || words2.length < 1) return false;
+            
+            // Bosh harflarni olish
+            const initials1 = words1.map(w => w.charAt(0)).join('');
+            const initials2 = words2.map(w => w.charAt(0)).join('');
+            
+            // Kamida 1 ta bosh harf mos kelishi yetarli
+            let commonInitials = 0;
+            for (let char of initials1) {
+                if (initials2.includes(char)) {
+                    commonInitials++;
+                }
+            }
+            
+            return commonInitials >= 1;
+        }
+
+        function partialMatch(name1, name2) {
+            // Qisman mos kelish - bir nomning ikkinchisida bo'lishi
+            const words1 = name1.split(/\s+/).filter(w => w.length > 2);
+            const words2 = name2.split(/\s+/).filter(w => w.length > 2);
+            
+            for (let word1 of words1) {
+                for (let word2 of words2) {
+                    // Bir so'z ikkinchisining ichida
+                    if (word1.includes(word2) || word2.includes(word1)) {
+                        if (Math.abs(word1.length - word2.length) <= 3) {
+                            return true;
+                        }
+                    }
+                    
+                    // Boshlanishi yoki oxiri bir xil
+                    if (word1.length > 3 && word2.length > 3) {
+                        if (word1.startsWith(word2.substring(0, 3)) || 
+                            word2.startsWith(word1.substring(0, 3))) {
+                            return true;
+                        }
+                    }
+                }
+            }
+            
+            return false;
+        }
+
+        function phoneticMatch(name1, name2) {
+            // Tovush o'xshashligi
+            const phonetic1 = toPhonetic(name1);
+            const phonetic2 = toPhonetic(name2);
+            
+            return calculateSimilarity(phonetic1, phonetic2) > 0.8;
+        }
+
+        function toPhonetic(name) {
+            // Tovushli o'xshash harflarni bir xil qilish
+            return name
+                .replace(/[КҚ]/g, 'K')
+                .replace(/[ГҒ]/g, 'G')
+                .replace(/[ХҲ]/g, 'H')
+                .replace(/[УЎ]/g, 'U')
+                .replace(/[ИЙ]/g, 'I')
+                .replace(/[ОЁ]/g, 'O')
+                .replace(/[ЦЧ]/g, 'C')
+                .replace(/[ШС]/g, 'S')
+                .replace(/[ЗЖ]/g, 'Z')
+                .replace(/[БП]/g, 'B')
+                .replace(/[ВФ]/g, 'V')
+                .replace(/[ДТ]/g, 'D')
+                .replace(/[МН]/g, 'M');
+        }
+
+        function transliterationMatch(name1, name2) {
+            // Lotin-Kirill konversiya
+            const latin1 = toLatin(name1);
+            const latin2 = toLatin(name2);
+            
+            if (latin1 === latin2) return true;
+            
+            return calculateSimilarity(latin1, latin2) > 0.8;
+        }
+
+        function toLatin(name) {
+            const cyrillicToLatin = {
+                'А': 'A', 'Б': 'B', 'В': 'V', 'Г': 'G', 'Д': 'D', 'Е': 'E', 'Ё': 'YO',
+                'Ж': 'J', 'З': 'Z', 'И': 'I', 'Й': 'Y', 'К': 'K', 'Л': 'L', 'М': 'M',
+                'Н': 'N', 'О': 'O', 'П': 'P', 'Р': 'R', 'С': 'S', 'Т': 'T', 'У': 'U',
+                'Ф': 'F', 'Х': 'H', 'Ц': 'TS', 'Ч': 'CH', 'Ш': 'SH', 'Щ': 'SCH',
+                'Ъ': '', 'Ы': 'Y', 'Ь': '', 'Э': 'E', 'Ю': 'YU', 'Я': 'YA',
+                'Ў': 'O', 'Қ': 'Q', 'Ғ': 'G', 'Ҳ': 'H'
+            };
+            
+            return name.split('').map(char => cyrillicToLatin[char] || char).join('');
+        }
+
+        function calculateSimilarity(str1, str2) {
+            // Levenshtein distance asosida o'xshashlik hisoblash
+            const longer = str1.length > str2.length ? str1 : str2;
+            const shorter = str1.length > str2.length ? str2 : str1;
+            
+            if (longer.length === 0) return 1.0;
+            
+            const distance = levenshteinDistance(longer, shorter);
+            return (longer.length - distance) / longer.length;
+        }
+
+        function levenshteinDistance(str1, str2) {
+            const matrix = [];
+            
+            for (let i = 0; i <= str2.length; i++) {
+                matrix[i] = [i];
+            }
+            
+            for (let j = 0; j <= str1.length; j++) {
+                matrix[0][j] = j;
+            }
+            
+            for (let i = 1; i <= str2.length; i++) {
+                for (let j = 1; j <= str1.length; j++) {
+                    if (str2.charAt(i - 1) === str1.charAt(j - 1)) {
+                        matrix[i][j] = matrix[i - 1][j - 1];
+                    } else {
+                        matrix[i][j] = Math.min(
+                            matrix[i - 1][j - 1] + 1,
+                            matrix[i][j - 1] + 1,
+                            matrix[i - 1][j] + 1
+                        );
+                    }
+                }
+            }
+            
+            return matrix[str2.length][str1.length];
+        }
+
+        function displayResults(commonPeople) {
+            let tableHtml = '<div style="margin-bottom: 20px;">';
+            tableHtml += `<div class="status success">📊 <strong>TAHLIL NATIJALARI:</strong><br>`;
+            tableHtml += `• 1-jadvalda: <strong>${file1Data.length - 1}</strong> ta jismoniy abonent<br>`;
+            tableHtml += `• 2-jadvalda: <strong>${file2Data.length - 1}</strong> ta xo'jalik egasi<br>`;
+            tableHtml += `• <strong>Umumiy shaxslar: ${commonPeople.length}</strong> ta<br>`;
+            tableHtml += `• Mos kelish foizi: <strong>${(commonPeople.length / Math.min(file1Data.length - 1, file2Data.length - 1) * 100).toFixed(1)}%</strong></div>`;
+            tableHtml += '</div>';
+            
+            // Agar ko'p natija bo'lsa, faqat birinchi 50 tasini ko'rsatish
+            const maxDisplay = 50;
+            const displayCount = Math.min(commonPeople.length, maxDisplay);
+            const hasMore = commonPeople.length > maxDisplay;
+            
+            if (hasMore) {
+                tableHtml += `<div class="status info">📋 <strong>DIQQAT:</strong> Jami ${commonPeople.length} ta natija topildi. Sahifada birinchi ${maxDisplay} tasini ko'rsatyapmiz. To'liq ro'yxatni Excel faylida ko'rishingiz mumkin.</div>`;
+            }
+            
+            tableHtml += '<table><thead><tr>';
+            tableHtml += '<th style="width: 50px;">№</th>';
+            tableHtml += '<th style="width: 200px;"><strong>👤 F.I.Sh</strong></th>';
+            tableHtml += '<th style="width: 300px;"><strong>📋 1-jadval (Abonent ma\'lumotlari)</strong></th>';
+            tableHtml += '<th style="width: 350px;"><strong>🏠 2-jadval (Xo\'jalik ma\'lumotlari)</strong></th>';
+            tableHtml += '</tr></thead><tbody>';
+            
+            for (let i = 0; i < displayCount; i++) {
+                const person = commonPeople[i];
+                tableHtml += `<tr style="border-left: 4px solid #667eea;">`;
+                tableHtml += `<td style="text-align: center; font-weight: bold; color: #667eea;">${i + 1}</td>`;
+                tableHtml += `<td><div style="font-weight: bold; color: #333; font-size: 14px; line-height: 1.4;">${person.fullName}</div></td>`;
+                
+                // 1-jadval ma'lumotlari
+                let table1Info = '<div style="font-size: 12px; line-height: 1.5;">';
+                const importantFields1 = ['Ҳисоб рақами', 'Маҳалла', 'Кўча', 'Уй', 'Салдо', 'Телефон'];
+                importantFields1.forEach(field => {
+                    const value = person.table1Data[field];
+                    if (value) {
+                        table1Info += `<div><span style="color: #666; font-weight: bold;">${field}:</span> <span style="color: #333;">${value}</span></div>`;
+                    }
+                });
+                table1Info += '</div>';
+                tableHtml += `<td>${table1Info}</td>`;
+                
+                // 2-jadval ma'lumotlari  
+                let table2Info = '<div style="font-size: 12px; line-height: 1.5;">';
+                const importantFields2 = ['Туғилган йили', 'Паспорт рақами', 'Яшаш манзили', 'Миллати', 'Маьлумоти', 'Иш жойи', 'Телефон', 'Оилавий ахволи'];
+                importantFields2.forEach(field => {
+                    const value = person.table2Data[field];
+                    if (value) {
+                        let displayValue = value;
+                        if (field === 'Оилавий ахволи' && value.includes('таьминланган')) {
+                            displayValue = `<span style="color: #e74c3c; font-weight: bold;">⚠️ ${value}</span>`;
+                        }
+                        table2Info += `<div><span style="color: #666; font-weight: bold;">${field}:</span> <span style="color: #333;">${displayValue}</span></div>`;
+                    }
+                });
+                table2Info += '</div>';
+                tableHtml += `<td>${table2Info}</td>`;
+                
+                tableHtml += `</tr>`;
+            }
+            
+            if (hasMore) {
+                tableHtml += `<tr><td colspan="4" style="text-align: center; padding: 20px; background: #f8f9ff; font-weight: bold; color: #667eea;">... va yana ${commonPeople.length - maxDisplay} ta natija (Excel faylda to'liq ro'yxat)</td></tr>`;
+            }
+            
+            tableHtml += '</tbody></table>';
+            document.getElementById('tableContainer').innerHTML = tableHtml;
+            document.getElementById('result').style.display = 'block';
+        }
+
+        function downloadResult() {
+            if (resultData.length === 0) {
+                showStatus('Yuklab olish uchun ma\'lumot yo\'q', 'error');
+                return;
+            }
+
+            try {
+                const ws_data = [];
+                
+                // Sarlavhalar
+                const headers = ['№', 'F.I.Sh'];
+                const table1Headers = Object.keys(resultData[0].table1Data);
+                const table2Headers = Object.keys(resultData[0].table2Data);
+                
+                table1Headers.forEach(header => headers.push(`1-jadval: ${header}`));
+                table2Headers.forEach(header => headers.push(`2-jadval: ${header}`));
+                
+                ws_data.push(headers);
+                
+                // Ma'lumotlar
+                resultData.forEach((person, index) => {
+                    const row = [index + 1, person.fullName];
+                    
+                    table1Headers.forEach(header => {
+                        row.push(person.table1Data[header] || '');
+                    });
+                    
+                    table2Headers.forEach(header => {
+                        row.push(person.table2Data[header] || '');
+                    });
+                    
+                    ws_data.push(row);
+                });
+
+                const wb = XLSX.utils.book_new();
+                const ws = XLSX.utils.aoa_to_sheet(ws_data);
+                XLSX.utils.book_append_sheet(wb, ws, "Umumiy_shaxslar");
+                
+                XLSX.writeFile(wb, `Umumiy_shaxslar_${new Date().toISOString().slice(0,10)}.xlsx`);
+                showStatus('Fayl muvaffaqiyatli yuklandi!', 'success');
+                
+            } catch (error) {
+                showStatus('Faylni yuklashda xatolik: ' + error.message, 'error');
+            }
+        }
+
+        function showStatus(message, type) {
+            const statusDiv = document.getElementById('status');
+            statusDiv.innerHTML = `<div class="status ${type}">${message}</div>`;
+        }
+
+        // Test funksiyasi - oila a'zolari bilan
+        function runTest() {
+            showStatus('loadingTest', 'info');
+            
+            // Test ma'lumotlari - 1-jadval (Jismoniy abonentlar) - 25 ta yozuv
+            const testData1 = [
+                ['№', 'Ф.И.Ш / Full Name / Ф.И.О', 'Ҳисоб рақами', 'Account Number', 'Номер счета', 'Маҳалла', 'Кўча', 'Уй', 'Салдо', 'Телефон'],
+                [724, 'ABDULLAYEV ABDULLO PIRMAXMADOVICH', '105020840550', '105020840550', '105020840550', 'Бўзи МФЙ (1-сектор)', 'БУЗИ', '6', '114000', '901234567'],
+                [725, 'ABDULLAYEVA MALIKA ABDULLO QIZI', '105020840551', '105020840551', '105020840551', 'Бўзи МФЙ (1-сектор)', 'БУЗИ', '6', '50000', '901234568'],
+                [726, 'ABDULLAYEV SHERMAT AHMADOVICH', '105020840005', '105020840005', '105020840005', 'Бўзи МФЙ (1-сектор)', 'БУЗИ', '5', '220529', '902345678'],
+                [727, 'ABDURAHMONOV JAVHAR UMEDOVICH', '105020840251', '105020840251', '105020840251', 'Бўзи МФЙ (1-сектор)', 'БУЗИ', '4', '139659', '903456789'],
+                [728, 'ABDURAHMONOVA NIGORA JAVHAR QIZI', '105020840252', '105020840252', '105020840252', 'Бўзи МФЙ (1-сектор)', 'БУЗИ', '4', '75000', '903456788'],
+                [729, 'KARIMOV AKBAR ALIEVICH', '105020840100', '105020840100', '105020840100', 'Марказий МФЙ', 'НАВОИЙ', '12', '85000', '904567890'],
+                [730, 'KARIMOVA ZULFIYA AKBAR QIZI', '105020840101', '105020840101', '105020840101', 'Марказий МФЙ', 'НАВОИЙ', '12', '45000', '904567891'],
+                [731, 'ДЖУМАЕВ САИДҚУЛ ХАМРОҚУЛОВИЧ', '105020840200', '105020840200', '105020840200', 'Бўзи МФЙ (1-сектор)', 'БЎЗЧИЛАР', '2', '150000', '905678901'],
+                [732, 'ИСЛОМОВА МАТЛУБА АСЛАМОВНА', '105020840201', '105020840201', '105020840201', 'Бўзи МФЙ (1-сектор)', 'БЎЗЧИЛАР', '2', '80000', '905678902'],
+                [733, 'ДЖУМАЕВ СОБИТЖОН САИДКУЛОВИЧ', '105020840202', '105020840202', '105020840202', 'Бўзи МФЙ (1-сектор)', 'БЎЗЧИЛАР', '2', '60000', '905678903'],
+                [734, 'RAHMONOV DILSHOD KARIMOVICH', '105020840300', '105020840300', '105020840300', 'Янги МФЙ', 'ЯНГИ', '8', '95000', '906789012'],
+                [735, 'NAZAROV BOBUR SHUHRATOVICH', '105020840400', '105020840400', '105020840400', 'Марказий МФЙ', 'МАРКАЗИЙ', '15', '180000', '907890123'],
+                [736, 'ISMATOV JASUR AKMALOVICH', '105020840500', '105020840500', '105020840500', 'Ипак Йўли МФЙ', 'ИПАК', '7', '120000', '908901234'],
+                [737, 'ISMATOVA FERUZA JASUR QIZI', '105020840501', '105020840501', '105020840501', 'Ипак Йўли МФЙ', 'ИПАК', '7', '65000', '908901235'],
+                [738, 'MAHMUDOV OTABEK RUSTAMOVICH', '105020840600', '105020840600', '105020840600', 'Чилонзор МФЙ', 'ЧИЛОНЗОР', '22', '75000', '909012345'],
+                [739, 'MAHMUDOVA GULNORA OTABEK QIZI', '105020840601', '105020840601', '105020840601', 'Чилонзор МФЙ', 'ЧИЛОНЗОР', '22', '55000', '909012346'],
+                [740, 'TASHMATOV ELDOR NORMATOVICH', '105020840700', '105020840700', '105020840700', 'Янги МФЙ', 'ЯНГИ', '11', '200000', '901123456'],
+                [741, 'YUSUPOV FARXOD ABDULLAYEVICH', '105020840800', '105020840800', '105020840800', 'Бўзи МФЙ (2-сектор)', 'БУЗИ-2', '3', '165000', '902234567'],
+                [742, 'SADIKOV AZIM HAKIMOVICH', '105020840900', '105020840900', '105020840900', 'Марказий МФЙ', 'МАРКАЗИЙ', '9', '90000', '903345678'],
+                [743, 'HAMIDOV NODIR SAIDOVICH', '105020841000', '105020841000', '105020841000', 'Ипак Йўли МФЙ', 'ИПАК', '14', '110000', '904456789'],
+                [744, 'UMAROV SARDOR AMINOVICH', '105020841100', '105020841100', '105020841100', 'Чилонзор МФЙ', 'ЧИЛОНЗОР', '18', '135000', '905567890'],
+                [745, 'QODIROV JAVLON RUSTAMOVICH', '105020841200', '105020841200', '105020841200', 'Янги МФЙ', 'ЯНГИ', '25', '88000', '906678901'],
+                [746, 'HAYDAROV ANVAR SHUKUROVICH', '105020841300', '105020841300', '105020841300', 'Бўзи МФЙ (1-сектор)', 'БУЗИ', '13', '145000', '907789012'],
+                [747, 'MIRZAYEV BEKZOD ALIMOVICH', '105020841400', '105020841400', '105020841400', 'Марказий МФЙ', 'МАРКАЗИЙ', '6', '175000', '908890123'],
+                [748, 'ERGASHEV BOBIR MAMADJONOVICH', '105020841500', '105020841500', '105020841500', 'Ипак Йўли МФЙ', 'ИПАК', '20', '125000', '909901234']
+            ];
+
+            // Test ma'lumotlari - 2-jadval (Xo'jalik egalari) - 30 ta yozuv
+            const testData2 = [
+                ['№', 'Хўжалик эгасининг фамилияси, исми, отасининг исми', 'Туғилган йили', 'Паспорт рақами', 'Қариндошлиги', 'Яшаш манзили', 'Миллати', 'Маьлумоти', 'Иш жойи', 'Телефон', 'Оилавий ахволи'],
+                [1, 'Джумаев Саидқул Хамроқулович', '05.11.1964', 'AB2714620', 'Хўжалик бошлиғи', 'Бўзчилар 2 уй', 'Ўзбек', 'Ўрта', 'Сам пиво завод', '905308600', 'Кам таьминланган'],
+                [2, 'Abdullayev Abdullo Pirmaxmadovich', '12.03.1975', 'AA1234567', 'Хўжалик бошлиғи', 'Бузи 6 уй', 'Ўзбек', 'Олий', 'Педагог', '901234567', 'Оддий'],
+                [3, 'Ismatov Jasur Akmalovich', '20.08.1980', 'AB9876543', 'Хўжалик бошлиғи', 'Ипак 7 уй', 'Ўзбек', 'Ўрта махсус', 'Тикувчи', '908901234', 'Оддий'],
+                [4, 'ABDURAHMONOV JAVHAR UMEDOVICH', '15.05.1985', 'AC5555555', 'Хўжалик бошлиғи', 'Бузи 4 уй', 'Ўзбек', 'Олий', 'Муҳандис', '903456789', 'Оддий'],
+                [5, 'Mahmudov Otabek Rustamovich', '10.01.1990', 'AD7777777', 'Хўжалик бошлиғи', 'Чилонзор 22 уй', 'Ўзбек', 'Ўрта махсус', 'Ҳайдовчи', '909012345', 'Оддий'],
+                [6, 'Karimov Akbar Alievich', '25.07.1978', 'AE8888888', 'Хўжалик бошлиғи', 'Навоий 12 уй', 'Ўзбек', 'Олий', 'Табиб', '904567890', 'Оддий'],
+                [7, 'Rahmonov Dilshod Karimovich', '18.12.1982', 'AF9999999', 'Хўжалик бошлиғи', 'Янги 8 уй', 'Ўзбек', 'Ўрта', 'Қурувчи', '906789012', 'Кам таьминланган'],
+                [8, 'NAZAROV BOBUR SHUHRATOVICH', '08.04.1977', 'AG1111111', 'Хўжалик бошлиғи', 'Марказий 15 уй', 'Ўзбек', 'Олий', 'Муҳосиб', '907890123', 'Оддий'],
+                [9, 'Tashmatov Eldor Normatovich', '30.09.1986', 'AH2222222', 'Хўжалик бошлиғи', 'Янги 11 уй', 'Ўзбек', 'Ўрта махсус', 'Электрик', '901123456', 'Оддий'],
+                [10, 'YUSUPOV FARXOD ABDULLAYEVICH', '14.06.1981', 'AI3333333', 'Хўжалик бошлиғи', 'Бузи-2 3 уй', 'Ўзбек', 'Олий', 'Дастурчи', '902234567', 'Оддий'],
+                [11, 'Sadikov Azim Hakimovich', '22.02.1979', 'AJ4444444', 'Хўжалик бошлиғи', 'Марказий 9 уй', 'Ўзбек', 'Ўрта', 'Сотувчи', '903345678', 'Кам таьминланган'],
+                [12, 'Hamidov Nodir Saidovich', '07.11.1983', 'AK5555555', 'Хўжалик бошлиғи', 'Ипак 14 уй', 'Ўзбек', 'Олий', 'Ўқитувчи', '904456789', 'Оддий'],
+                [13, 'Umarov Sardor Aminovich', '16.08.1976', 'AL6666666', 'Хўжалик бошлиғи', 'Чилонзор 18 уй', 'Ўзбек', 'Ўрта махсус', 'Слесар', '905567890', 'Оддий'],
+                [14, 'QODIROV JAVLON RUSTAMOVICH', '03.01.1988', 'AM7777777', 'Хўжалик бошлиғи', 'Янги 25 уй', 'Ўзбек', 'Ўрта', 'Фермер', '906678901', 'Кам таьминланган'],
+                [15, 'Haydarov Anvar Shukurovich', '11.10.1984', 'AN8888888', 'Хўжалик бошлиғи', 'Бузи 13 уй', 'Ўзбек', 'Олий', 'Адвокат', '907789012', 'Оддий'],
+                [16, 'Mirzayev Bekzod Alimovich', '28.05.1980', 'AO9999999', 'Хўжалик бошлиғи', 'Марказий 6 уй', 'Ўзбек', 'Олий', 'Журналист', '908890123', 'Оддий'],
+                [17, 'ERGASHEV BOBIR MAMADJONOVICH', '19.12.1987', 'AP1111111', 'Хўжалик бошлиғи', 'Ипак 20 уй', 'Ўзбек', 'Ўрта махсус', 'Ошпаз', '909901234', 'Оддий'],
+                [18, 'Normatov Umid Karimovich', '06.03.1985', 'AQ2222222', 'Хўжалик бошлиғи', 'Чилонзор 10 уй', 'Ўзбек', 'Олий', 'Архитектор', '901012345', 'Оддий'],
+                [19, 'AHMEDOV ZAFAR HIKMATOVICH', '24.07.1982', 'AR3333333', 'Хўжалик бошлиғи', 'Янги 17 уй', 'Ўзбек', 'Ўрта', 'Чўпон', '902123456', 'Кам таьминланган'],
+                [20, 'Sultanov Jasurbek Nodirbekovich', '13.09.1986', 'AS4444444', 'Хўжалик бошлиғи', 'Бузи-2 5 уй', 'Ўзбек', 'Олий', 'Банкир', '903234567', 'Оддий'],
+                [21, 'Rustamov Sherzod Abdurashidovich', '02.04.1978', 'AT5555555', 'Хўжалик бошлиғи', 'Марказий 19 уй', 'Ўзбек', 'Олий', 'Юрист', '904345678', 'Оддий'],
+                [22, 'FAYZULLAYEV OTABEK SOBIRTOVICH', '21.11.1983', 'AU6666666', 'Хўжалик бошлиғи', 'Ипак 12 уй', 'Ўзбек', 'Ўрта махсус', 'Бўёқчи', '905456789', 'Кам таьминланган'],
+                [23, 'Aminov Davron Shavkatovich', '09.06.1981', 'AV7777777', 'Хўжалик бошлиғи', 'Чилонзор 8 уй', 'Ўзбек', 'Ўрта', 'Қурувчи', '906567890', 'Оддий'],
+                [24, 'Baxtiyorov Ulugbek Hamidovich', '17.02.1989', 'AW8888888', 'Хўжалик бошлиғи', 'Янги 21 уй', 'Ўзбек', 'Олий', 'Бошқарувчи', '907678901', 'Оддий'],
+                [25, 'Holmatov Aziz Rustamovich', '26.08.1987', 'AX9999999', 'Хўжалик бошлиғи', 'Бузи 9 уй', 'Ўзбек', 'Ўрта махсус', 'Механик', '908789012', 'Оддий'],
+                [26, 'Tursunov Sanjar Abdurahmonovich', '15.01.1984', 'AY1111111', 'Хўжалик бошлиғи', 'Марказий 23 уй', 'Ўзбек', 'Олий', 'Иқтисодчи', '909890123', 'Оддий'],
+                [27, 'Nematov Islom Karimovich', '04.10.1982', 'AZ2222222', 'Хўжалик бошлиғи', 'Ипак 16 уй', 'Ўзбек', 'Ўрта', 'Қассоб', '901901234', 'Кам таьминланган'],
+                [28, 'Sharipov Alisher Normatovich', '23.12.1985', 'BA3333333', 'Хўжалик бошлиғи', 'Чилонзор 12 уй', 'Ўзбек', 'Олий', 'Тарихчи', '902012345', 'Оддий'],
+                [29, 'Qurbonov Jamshid Hakimovich', '12.05.1978', 'BB4444444', 'Хўжалик бошлиғи', 'Янги 14 уй', 'Ўзбек', 'Ўрта махсус', 'Наққош', '903123456', 'Оддий'],
+                [30, 'Yo\'ldoshev Dilmurod Shukurovich', '01.07.1981', 'BC5555555', 'Хўжалик бошлиғи', 'Бузи-2 11 уй', 'Ўзбек', 'Олий', 'Фармацевт', '904234567', 'Оддий']
+            ];
+
+            // Test ma'lumotlarini o'zgaruvchilarga o'rnatish
+            file1Data = testData1;
+            file2Data = testData2;
+
+            // Fayl ma'lumotlarini ko'rsatish
+            document.getElementById('info1').style.display = 'block';
+            document.getElementById('info1').innerHTML = `✅ Test ma'lumoti: ${testData1.length - 1} ta abonent`;
+            
+            document.getElementById('info2').style.display = 'block';
+            document.getElementById('info2').innerHTML = `✅ Test ma'lumoti: ${testData2.length - 1} ta xo'jalik egasi`;
+
+            // Solishtirish tugmasini faollashtirish
+            document.getElementById('compareBtn').disabled = false;
+            
+            showStatus('Katta test ma\'lumoti yuklandi! Endi solishtirish boshlanyapti...', 'success');
+            
+            // Avtomatik solishtirish
+            setTimeout(() => {
+                compareFiles();
+            }, 1500);
+        }
+    </script>
+</body>
+</html>
